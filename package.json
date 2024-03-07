@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "mssql": "^10.0.2",
+    "require": "^2.4.20",
     "tedious": "^17.0.0"
   }
 }

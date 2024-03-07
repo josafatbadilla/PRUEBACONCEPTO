@@ -1,35 +1,59 @@
-var Connection = require('tedious').Connection;  
-    var config = {  
-        server: 'JOSA-LAPTOP',  //update me
-        authentication: {
-            type: 'default',
-            options: {
-                userName: 'your_username', //update me
-                password: 'your_password'  //update me
-            }
-        },
-        options: {
-            // If you are on Microsoft Azure, you need encryption:
-            encrypt: true,
-            database: 'TAREA0'  //update me
-        }
-    };  
-    var connection = new Connection(config);  
-    connection.on('connect', function(err) {  
-        // If no error, then good to proceed.
-        console.log("Connected");  
-        test();
-    });
-    
-    connection.connect();
+const mssql = require('mssql');
 
-    var Request = require('tedious').Request;  
-    var TYPES = require('tedious').TYPES;  
-  
-    function test (){
-    const request = new Request("SELECT * FROM dbo.Empleados;", function(err, rowCount) {
-        console.log(rowCount + ' row(s) returned');
-      });
-    
-      connection.execSql(request);
+const config = {
+    server: 'JOSA-LAPTOP',
+    database: 'TAREA0',
+    options: {
+        encrypt: true, // Habilitar el cifrado SSL
+        trustServerCertificate: true // Desactivar la verificación del certificado
     }
+        
+};
+
+async function executeQuery() {
+    try {
+        // Conectarse a la base de datos
+        await mssql.connect(config);
+
+        // Consulta SQL
+        const result = await mssql.query('SELECT * FROM dbo.Empleado');
+
+        // Imprimir resultados
+        console.dir(result);
+
+    } catch (err) {
+        // Manejar errores
+        console.error('Error al ejecutar la consulta:', err);
+    } finally {
+        // Cerrar la conexión
+        await mssql.close();
+    }
+}
+
+// Llamar a la función para ejecutar la consulta
+executeQuery();
+
+// Función para cargar los datos de la tabla desde la API
+function cargarDatos() {
+    fetch('url_de_tu_api_que_proporciona_los_datos')
+        .then(response => response.json())
+        .then(data => {
+            const tabla = document.getElementById('datosTabla');
+            tabla.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
+            
+            data.forEach(fila => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${fila.id}</td>
+                    <td>${fila.nombre}</td>
+                    <td>${fila.salario}</td>
+                `;
+                tabla.appendChild(tr);
+            });
+        })
+        .catch(error => {
+            console.error('Error al cargar los datos:', error);
+        });
+}
+// Llamar a la función para cargar los datos cuando la página cargue
+//window.onload = cargarDatos;
