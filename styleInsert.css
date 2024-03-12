@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+#formularioEmpleados {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+#formularioEmpleados h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#formularioEmpleados label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#formularioEmpleados input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+#formularioEmpleados button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#formularioEmpleados button:hover {
+    background-color: #0056b3;
+}
+
+.boton {
+    margin-top:10px;
+    padding: 10px;
+    border: none;
+    background-color: #0f227a;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.boton:hover {
+    background-color: #267bd4;
+}
