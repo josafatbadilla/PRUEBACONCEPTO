@@ -2,9 +2,10 @@ const express = require('express');
 const mssql = require('mssql');
 const cors = require('cors');
 const app = express();
+const bodyParser = require('body-parser');
 
 app.use(cors());
-
+app.use(bodyParser.json());
 
 // Configurar la conexión a la base de datos MSSQL
 const config = {
@@ -31,12 +32,22 @@ async function conectarBaseDatos() {
 
 app.get('/data', async (req, res) => {
     try {
+        const request = new mssql.Request();
+        
+        //Parametro de salida
+        request.output('OutResultCode', mssql.Int);
 
-        // Realizar una consulta a la base de datos
-        const result = await mssql.query('EXEC dbo.ListarEmpleado');
-
-        // Enviar los datos como respuesta al frontend
-        res.json(result.recordset);
+        request.execute('dbo.ListarEmpleado', (err, result) => {
+            if (err) {
+              console.error('Error al ejecutar el procedimiento almacenado:', err);
+              return;
+            }
+            // Obtener el valor de salida
+            const resultCode = result.output.OutResultCode;
+            
+            // Envia el codigo de resultado
+            res.json(result.recordset)
+        });
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({ error: 'Error fetching data' });
@@ -46,25 +57,25 @@ app.get('/data', async (req, res) => {
 app.post('/insertarDatos', async (req, res) => {
     try {
         const { nombre, salario } = req.body;
-
-        // Crear una instancia de Request
         const request = new mssql.Request();
 
-        // Establecer los parámetros de entrada
+        // Establece los parámetros de entrada y salida
         request.input('inNombre', mssql.VarChar(64), nombre);
         request.input('inSalario', mssql.Money, salario);
-
-        // Definir el parámetro de salida
         request.output('OutResultCode', mssql.Int);
-
+        
         // Ejecutar el procedimiento almacenado
-        await request.execute('dbo.InsertarEmpleado');
-
-        // Obtener el valor del parámetro de salida
-        const resultCode = request.parameters.OutResultCode.value;
-
-        // Enviar una respuesta al cliente
-        res.status(200).json({ message: 'Datos insertados correctamente', resultCode: resultCode });
+        request.execute('dbo.InsertarEmpleado', (err, result) => {
+            if (err) {
+              console.error('Error al ejecutar el procedimiento almacenado:', err);
+              return;
+            }
+            // Obtener el valor de salida
+            const resultCode = result.output.OutResultCode;
+            // Envia un mensaje y el codigo de resultado
+            res.status(200).json({ message: 'Datos insertados correctamente', resultCode: resultCode });
+        });
+        
     } catch (error) {
         console.error('Error al insertar datos:', error);
         res.status(500).json({ error: 'Error al insertar datos' });
