@@ -1,5 +1,5 @@
 body{
-    background-color: rgb(91, 120, 216);
+    background-color: #e0e0e0;
 }
 
 .boton{
@@ -10,8 +10,8 @@ body{
     background-color: #007bff;
     color: #fff;
     border-radius: 5px;
+    border-color: #007bff;
     cursor: pointer;
-    border: 2px solid white;
     padding: 10px 60px;
     font-size:large;
 }
@@ -31,20 +31,23 @@ h1 {
 }
 
 table {
-    width: 100%;
-    
+    margin: auto;
+    width: 88%;
     border-collapse: collapse;
-    background-color: rgb(176, 194, 209);
+    border-color: #014792;
+    border-radius: 10px; /* Ajusta el radio de los bordes según lo desees */
+    overflow: hidden; /* Evita que los bordes se superpongan */
+    border-collapse: collapse;
+    background-color: #fff;
 }
 th, td {
-   
     font-family: Arial, sans-serif;
-    border: 1px solid #dddddd;
+    border-bottom: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 
 }
 th {
     align-items: center;
-    background-color: #665151;
+    background-color: #a0d0f0;
 }

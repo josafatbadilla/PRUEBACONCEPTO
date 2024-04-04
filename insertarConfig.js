@@ -1,6 +1,6 @@
 function sonSoloLetras(str) {
     // Comprueba si el string contiene solo letras del alfabeto (mayúsculas o minúsculas)
-    return /^[a-zA-Z]+(\s[a-zA-Z]+)?$/.test(str);
+    return /^[a-zA-ZÁáÉéÍíÓóÚúÑñÜü]+(\s[a-zA-ZÁáÉéÍíÓóÚúÑñÜü]+)?$/.test(str);
   }
 
 function insertarDatos(nombre, salario) {
